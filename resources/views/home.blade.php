@@ -14,6 +14,8 @@
                         </div>
                     @endif
                     <example-component></example-component>
+                    <i class="fa fa-rebel" aria-hidden="true"></i>
+                       
                     You are logged in!
                 </div>
             </div>
