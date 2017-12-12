@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -26,4 +27,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * setPasswordAttribute
+     *
+     * Hashes automatically the password so it is not stored in plain text
+     *
+     * @param string $password The password to be stored as a hash.
+     * @return void
+     * @author Marco A. Santana
+     */
+     public function setPasswordAttribute($password)
+    {
+        //$this->attributes['password'] = Hash::make($password); 
+        $this->attributes['password'] = bcrypt($password); 
+    }
 }
