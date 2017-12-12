@@ -16,27 +16,25 @@ use Illuminate\Database\Eloquent\Model;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+
+
     /**
-     * testSetPAsswordAttribute
+     * testSetPasswordAttribute
      *
-     * @param
+     * @param $user 
      * @return void
      * @author Marco A. Santana
      */
     public function testSetPasswordAttribute()
     {
-        Hash::shouldReceive('make')->once()->andReturn('hashed');
-        $user = new \App\User;
-        $user->password = 'foo';
-        $this->assertEquals('hashed', $user->password);
+        //Hash::shouldReceive('make')->once()->andReturn('hashed');
+        $user = factory(\App\User::class)->make();
+       $user->save(); 
+        //$user = new \App\User;
+        //$this->assertEquals(bcrypt('secret'), $user->password);
+        $this->assertTrue(Hash::check('secret', $user->password));
+        //$this->assertEquals(Hash('foo'), $user->password);
     }
 
-    public function testCanBeCreatedFromValidUserClass(): void
-    {
-        $this->assertInstanceOf(
-            \App\User::class,
-            \App\User::fromString('Testuser')
-        );
-    }
      
 }
