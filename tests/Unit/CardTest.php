@@ -5,32 +5,25 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Database\Eloquent\Model;
 
 class CardTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
+    // use DatabaseMigrations;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
 
-    /**
-     * Validates the card data facgtory generated
-     *
-     * @return void
-     * @author Marco A. Santana
-     */
-    public function testCardContents()
+    public function testCardsResponds()
     {
-        $card = factory(\App\Card::class)->make();
-        dd($card);
-        $this->assertInstanceOf($card, new \App\Card);
+        $user = factory(\App\User::class)->create(['password' => "password"]);
+        //
+        $payload = ['email' => $user->email, 'password' => "password"];
+        $cards = factory(\App\Card::class, 50)->create();
+        $response = $this->json('GET', 'api/cards');
+        $response
+            ->assertStatus(200)
+            ->assertSuccessful()
+            ->assertJson(['id']);
     }
 }
